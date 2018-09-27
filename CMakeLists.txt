@@ -11,4 +11,4 @@ file(GLOB_RECURSE SOURCE "src/*.cpp")
 
 add_subdirectory(boost_tests)
 
-add_executable(test main.cpp ${SOURCE})
+add_executable(test main.cpp ${SOURCE} include/hackerrank.h)

@@ -2,8 +2,11 @@
 // Created by andy on 18/08/18.
 //
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 
+#include "hackerrank.h"
+#include <iostream>
+#include <limits>
 using namespace std;
 
 // Complete the hourglassSum function below.
@@ -63,4 +66,58 @@ int minimumBribes(vector<int> q) {
         cout << numSwap << endl;
         return numSwap;
     }
+}
+
+vector<int> gradingStudents(vector<int> grades){
+    vector<int> roundGrads;
+    for(auto iter = grades.begin(); iter < grades.end(); ++iter){
+        if (*iter < 38 || *iter % 5 < 3){
+            roundGrads.push_back(*iter);
+        }
+        else {
+            int round = 5 - (*iter % 5) + *iter;
+            roundGrads.push_back(round);
+        }
+    }
+    return roundGrads;
+}
+
+void countApplesAndOranges(int s, int t, int a, int b, vector<int> apples, vector<int> oranges) {
+    int appleCount = 0;
+    int orangeCount = 0;
+    for (auto iter = apples.begin(); iter < apples.end(); ++iter){
+        int aDist = *iter + a;
+        if (aDist >= s and aDist <= t){
+            ++appleCount;
+        }
+    }
+    cout << appleCount << endl;
+    for (auto iter = oranges.begin(); iter < oranges.end(); ++iter){
+        int bDist = *iter + b;
+        if (bDist >= s and bDist <= t){
+            ++orangeCount;
+        }
+    }
+    cout << orangeCount << endl;
+}
+
+string kangaroo(int x1, int v1, int x2, int v2) {
+    int s = 0;
+    int diff = 0;
+    if (x1 > x2){
+        diff = x1 - x2;
+        s = v2 - v1;
+    }
+    else if (x1 < x2){
+        diff = x2 - x1;
+        s = v1 - v2;
+    }
+    else{
+        s = 1;
+    }
+    if (s > 0 and diff % s == 0)
+        return "YES";
+    else
+        return "NO";
+
 }

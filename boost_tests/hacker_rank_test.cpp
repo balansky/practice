@@ -5,6 +5,7 @@
 
 //#include <boost/test/included/unit_test.hpp>
 #include <boost/test/unit_test.hpp>
+#include "hackerrank.h"
 
 using namespace std;
 //BOOST_AUTO_TEST_CASE(MyTestCase){
@@ -14,9 +15,9 @@ using namespace std;
 //
 //}
 
-int hourglassSum(vector<vector<int>> arr);
-vector<int> rotLeft(vector<int>, int);
-int minimumBribes(vector<int>);
+//int hourglassSum(vector<vector<int>> arr);
+//vector<int> rotLeft(vector<int>, int);
+//int minimumBribes(vector<int>);
 
 BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
 
@@ -71,6 +72,31 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
         BOOST_CHECK_EQUAL(minimumBribes(vec), 3);
         BOOST_CHECK_EQUAL(minimumBribes(vec2), -1);
         BOOST_CHECK_EQUAL(minimumBribes(vec3), 7);
+    }
+
+    BOOST_AUTO_TEST_CASE(grade_student_test){
+
+        int arr[] = {73, 67, 38, 33};
+        int gt[] = {75, 67, 40, 33};
+        vector<int> test(arr, arr + 4);
+        vector<int> gt_test(gt, gt + 4);
+        vector<int> res = gradingStudents(test);
+        BOOST_CHECK_EQUAL_COLLECTIONS(res.begin(), res.end(), gt_test.begin(), gt_test.end());
+
+    }
+
+    BOOST_AUTO_TEST_CASE(apple_orange_test){
+
+        int s = 7;
+        int t = 11;
+        int a = 5;
+        int b = 15;
+        int appleArr[] = {-2, 2, 1};
+        int orangeArr[] = {5, -6};
+        vector <int> apples(appleArr, appleArr+3);
+        vector <int> oranges(orangeArr, orangeArr+2);
+        countApplesAndOranges(s,t,a,b,apples,oranges);
+
     }
 
 
