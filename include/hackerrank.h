@@ -18,4 +18,7 @@ vector<int> gradingStudents(vector<int>);
 
 void countApplesAndOranges(int s, int t, int a, int b, vector<int> apples, vector<int> oranges);
 
+int colleageEqual(vector<int> arr);
+
+int sherlockcost(vector<int> B);
 #endif //PRACTICE_HACKERRANK_H

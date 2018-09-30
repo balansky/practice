@@ -99,6 +99,24 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
 
     }
 
+    BOOST_AUTO_TEST_CASE(colleage_equal_test){
+
+        int arr[] = {2, 5, 5, 5, 5, 5};
+        vector <int> arrVec(arr, arr+6);
+        int res = colleageEqual(arrVec);
+
+        BOOST_CHECK_EQUAL(res, 6);
+
+    }
+    BOOST_AUTO_TEST_CASE(cost_test){
+
+        int arr[] = {1, 2, 3};
+        vector <int> arrVec(arr, arr+3);
+        sherlockcost(arrVec);
+
+//        BOOST_CHECK_EQUAL(res, 6);
+
+    }
 
 BOOST_AUTO_TEST_SUITE_END()
 
