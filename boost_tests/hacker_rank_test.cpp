@@ -118,6 +118,25 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
 
     }
 
+    BOOST_AUTO_TEST_CASE(common_child_test){
+        string s1 = "HARRY";
+        string s2 = "SALLY";
+        int res = commonChild(s1, s2);
+
+
+        BOOST_CHECK_EQUAL(res, 2);
+
+    }
+
+    BOOST_AUTO_TEST_CASE(reverse_shuffle_merge_test){
+        string s1 = "eggegg";
+        string r = reverseShuffleMerge(s1);
+
+
+        BOOST_CHECK_EQUAL(r, "egg");
+
+    }
+
 BOOST_AUTO_TEST_SUITE_END()
 
 //BOOST_AUTO_TEST_CASE(constructor_test)

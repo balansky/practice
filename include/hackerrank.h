@@ -4,8 +4,9 @@
 
 #ifndef PRACTICE_HACKERRANK_H
 #define PRACTICE_HACKERRANK_H
-//#include <bits/stdc++.h>
-#include <vector>
+#include <bits/stdc++.h>
+//#include <vector>
+
 using namespace std;
 
 int hourglassSum(vector<vector<int>>);
@@ -21,4 +22,8 @@ void countApplesAndOranges(int s, int t, int a, int b, vector<int> apples, vecto
 int colleageEqual(vector<int> arr);
 
 int sherlockcost(vector<int> B);
+
+int commonChild(string s1, string s2);
+
+string reverseShuffleMerge(string s);
 #endif //PRACTICE_HACKERRANK_H

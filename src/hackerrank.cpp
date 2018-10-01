@@ -9,6 +9,7 @@
 #include <limits>
 #include <algorithm>    // std::min_element, std::max_element
 #include <map>
+#include <set>
 
 using namespace std;
 
@@ -163,4 +164,85 @@ int sherlockcost(vector<int> B) {
         high = nextHigh;
     }
     return max(high, low);
+}
+
+
+set<string> subStrings(set<string> strs){
+    set<string> subStrs;
+    for (auto iter = strs.begin(); iter != strs.end(); ++iter){
+        for(int i = 0; i < (*iter).size(); ++ i){
+            string s1 = (*iter).substr(0, i - 0);
+            string s2 = (*iter).substr(i+1);
+            string s3 = s1 + s2;
+            subStrs.insert(s3);
+        }
+    }
+    return subStrs;
+}
+
+// Complete the commonChild function below.
+int commonChild(string s1, string s2) {
+
+//    int matrix [int(s1.size()+1)][int(s2.size()+1)] ;
+    vector < vector <int> > matrix(s2.length()+1,vector<int>(s1.length()+1));
+//    for (int i = 0; i <= s1.size(); i++)
+//        matrix[0][i] = 0;
+//    for (int j = 0; j <= s2.size(); j++)
+//        matrix[j][0] = 0;
+    for (int j = 1; j <= s1.size(); j++){
+        for (int i = 1; i <= s2.size(); i++){
+            if (s1[i-1] == s2[j-1])
+                matrix[j][i] = (matrix[j-1][i-1] + 1);
+            else
+                matrix[j][i] = max(matrix[j-1][i], matrix[j][i-1]);
+        }
+    }
+    return matrix[s1.size()][s2.size()];
+
+
+
+}
+
+string reverseShuffleMerge(string s) {
+    map<char, int> counter;
+    map<char, int> reqs;
+    for (auto iter = s.begin(); iter < s.end(); ++iter){
+        ++counter[*iter];
+    }
+    for (map<char,int>::iterator it=counter.begin(); it!=counter.end(); ++it)
+        reqs[((*it).first)] = ((*it).second/2);
+
+    vector <char> vs;
+
+    for(int i = s.size()-1; i >=0; --i ){
+        char c = s[i];
+        if(vs.size() == 0){
+            vs.push_back(c);
+            --reqs[c];
+            --counter[c];
+        }
+        else if(reqs[c] == 0){
+            --counter[c];
+            continue;
+        }
+        else{
+            while(!vs.empty()){
+                char last = *(vs.end()-1);
+                if(c < last && reqs[last] + 1 <= counter[last]){
+                    ++reqs[last];
+                    vs.pop_back();
+                }
+                else
+                    break;
+            }
+            vs.push_back(c);
+            --reqs[c];
+            --counter[c];
+        }
+    }
+
+    // sort (vs.begin(), vs.end());
+    string res (vs.begin(), vs.end());
+    return res;
+
 }
