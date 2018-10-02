@@ -7,6 +7,7 @@
 #include <boost/test/unit_test.hpp>
 #include "hackerrank.h"
 
+
 using namespace std;
 //BOOST_AUTO_TEST_CASE(MyTestCase){
 //    Student st("andy");
@@ -134,6 +135,11 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
 
 
         BOOST_CHECK_EQUAL(r, "egg");
+
+    }
+
+    BOOST_AUTO_TEST_CASE(mst_test){
+        KruskalMST();
 
     }
 

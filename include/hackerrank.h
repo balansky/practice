@@ -26,4 +26,7 @@ int sherlockcost(vector<int> B);
 int commonChild(string s1, string s2);
 
 string reverseShuffleMerge(string s);
+
+
+void KruskalMST();
 #endif //PRACTICE_HACKERRANK_H
