@@ -7,6 +7,8 @@
 #include "hackerrank.h"
 #include <iostream>
 #include <limits>
+#include <algorithm>
+#include <set>
 using namespace std;
 
 // Complete the hourglassSum function below.
@@ -119,5 +121,68 @@ string kangaroo(int x1, int v1, int x2, int v2) {
         return "YES";
     else
         return "NO";
+
+}
+
+Graph createGraph(int V, vector<int> &graph_from, vector<int> &graph_to){
+    Graph g(V);
+
+    for(int i =0; i < graph_from.size(); i++){
+        int src = graph_from[i] - 1;
+        int dst = graph_to[i] - 1;
+        g.addEdge(src, dst, 1);
+    }
+
+    return g;
+}
+
+int findShortest(int graph_nodes, vector<int> graph_from, vector<int> graph_to, vector<long> ids, int val) {
+
+    Graph g = createGraph(graph_nodes, graph_from, graph_to);
+    auto it = find(ids.begin(), ids.end(), val);
+    auto st = find(it+1, ids.end(), val);
+    if (it != ids.end() && st != ids.end()){
+        long pos = distance(ids.begin(), it);
+        long tpos = distance(ids.begin(), st);
+
+        set<pair<int, int>> setds;
+        vector<int> dist(graph_nodes, numeric_limits<int>::max());
+
+        dist[pos] = 0;
+        setds.insert(make_pair(0, pos));
+        while(!setds.empty()){
+
+            pair<int,int> tmp = *setds.begin();
+            setds.erase(setds.begin());
+
+            int u = tmp.second;
+
+            if(u == tpos)
+                break;
+
+            for(auto iter = g.edges[u].begin(); iter != g.edges[u].end(); iter++){
+
+                int d = (*iter).first;
+                int w = (*iter).second;
+                int ud = dist[u] + w;
+                if(dist[d] > ud) {
+
+                    if (dist[d] != numeric_limits<int>::max()) {
+                        setds.erase(setds.find(make_pair(dist[d], d)));
+                    }
+                    dist[d] = ud;
+                    setds.insert(make_pair(ud, d));
+                }
+
+            }
+
+        }
+        return dist[tpos];
+
+
+    }
+    else{
+        return -1;
+    }
 
 }

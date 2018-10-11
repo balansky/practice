@@ -99,6 +99,21 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
 
     }
 
+    BOOST_AUTO_TEST_CASE(shortest_path_test){
+        int n = 4;
+        int fromArr[] = {1, 1, 4};
+        int toArr[] = {2, 3, 2};
+        int idArr[] = {1, 2, 1, 1};
+        int t = 1;
+        vector <int> fromVec(fromArr, fromArr+3);
+        vector <int> toVec(toArr, toArr+3);
+        vector <long> ids(idArr, idArr + 4);
+
+        int res = findShortest(n, fromVec, toVec, ids, t);
+        int ll;
+
+
+    }
 
 BOOST_AUTO_TEST_SUITE_END()
 
