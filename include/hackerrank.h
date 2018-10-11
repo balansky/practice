@@ -7,6 +7,9 @@
 //#include <bits/stdc++.h>
 #include <vector>
 #include <list>
+#include <bits/stdc++.h>
+//#include <vector>
+
 using namespace std;
 
 int hourglassSum(vector<vector<int>>);
@@ -44,4 +47,14 @@ struct Graph{
 
 int findShortest(int graph_nodes, vector<int> graph_from, vector<int> graph_to, vector<long> ids, int val);
 
+int colleageEqual(vector<int> arr);
+
+int sherlockcost(vector<int> B);
+
+int commonChild(string s1, string s2);
+
+string reverseShuffleMerge(string s);
+
+
+void KruskalMST();
 #endif //PRACTICE_HACKERRANK_H

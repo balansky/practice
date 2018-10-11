@@ -9,6 +9,10 @@
 #include <limits>
 #include <algorithm>
 #include <set>
+#include <algorithm>    // std::min_element, std::max_element
+#include <map>
+#include <set>
+
 using namespace std;
 
 // Complete the hourglassSum function below.
@@ -184,5 +188,127 @@ int findShortest(int graph_nodes, vector<int> graph_from, vector<int> graph_to, 
     else{
         return -1;
     }
+
+}
+
+
+int colleageEqual(vector<int> arr) {
+    auto min_iter = std::min_element(arr.begin(), arr.end());
+    auto max_iter = std::max_element(arr.begin(), arr.end());
+    if (*min_iter == *max_iter)
+        return 0;
+    int min_a = *min_iter;
+    int min_ops = -1;
+    for(int i = 0; i <= 4; i ++){
+//        if (min_a < 0)
+//            break;
+        int ops = 0;
+        for(auto iter = arr.begin(); iter < arr.end(); ++iter){
+            int diff = *iter - min_a;
+            int five_ops = diff / 5;
+            int two_ops = (diff % 5) / 2;
+            int one_ops = (diff % 5) % 2;
+            ops += (five_ops + two_ops + one_ops);
+        }
+        if (min_ops < 0 or ops < min_ops)
+            min_ops = ops;
+        --min_a;
+    }
+    return min_ops;
+}
+
+int sherlockcost(vector<int> B) {
+    int low = 0;
+    int high = 0;
+    for (auto iter = B.begin()+1; iter < B.end(); ++iter){
+        int highTolow = abs(*(iter-1) - 1);
+        int lowTohigh = abs(1 - *iter);
+        int highTohigh = abs(*(iter-1) - *iter);
+        int nextLow = max(low + 0, high + highTolow);
+        int nextHigh = max(high + highTohigh, low + lowTohigh);
+        low = nextLow;
+        high = nextHigh;
+    }
+    return max(high, low);
+}
+
+
+set<string> subStrings(set<string> strs){
+    set<string> subStrs;
+    for (auto iter = strs.begin(); iter != strs.end(); ++iter){
+        for(int i = 0; i < (*iter).size(); ++ i){
+            string s1 = (*iter).substr(0, i - 0);
+            string s2 = (*iter).substr(i+1);
+            string s3 = s1 + s2;
+            subStrs.insert(s3);
+        }
+    }
+    return subStrs;
+}
+
+// Complete the commonChild function below.
+int commonChild(string s1, string s2) {
+
+//    int matrix [int(s1.size()+1)][int(s2.size()+1)] ;
+    vector < vector <int> > matrix(s2.length()+1,vector<int>(s1.length()+1));
+//    for (int i = 0; i <= s1.size(); i++)
+//        matrix[0][i] = 0;
+//    for (int j = 0; j <= s2.size(); j++)
+//        matrix[j][0] = 0;
+    for (int j = 1; j <= s1.size(); j++){
+        for (int i = 1; i <= s2.size(); i++){
+            if (s1[i-1] == s2[j-1])
+                matrix[j][i] = (matrix[j-1][i-1] + 1);
+            else
+                matrix[j][i] = max(matrix[j-1][i], matrix[j][i-1]);
+        }
+    }
+    return matrix[s1.size()][s2.size()];
+
+
+
+}
+
+string reverseShuffleMerge(string s) {
+    map<char, int> counter;
+    map<char, int> reqs;
+    for (auto iter = s.begin(); iter < s.end(); ++iter){
+        ++counter[*iter];
+    }
+    for (map<char,int>::iterator it=counter.begin(); it!=counter.end(); ++it)
+        reqs[((*it).first)] = ((*it).second/2);
+
+    vector <char> vs;
+
+    for(int i = s.size()-1; i >=0; --i ){
+        char c = s[i];
+        if(vs.size() == 0){
+            vs.push_back(c);
+            --reqs[c];
+            --counter[c];
+        }
+        else if(reqs[c] == 0){
+            --counter[c];
+            continue;
+        }
+        else{
+            while(!vs.empty()){
+                char last = *(vs.end()-1);
+                if(c < last && reqs[last] + 1 <= counter[last]){
+                    ++reqs[last];
+                    vs.pop_back();
+                }
+                else
+                    break;
+            }
+            vs.push_back(c);
+            --reqs[c];
+            --counter[c];
+        }
+    }
+
+    // sort (vs.begin(), vs.end());
+    string res (vs.begin(), vs.end());
+    return res;
 
 }

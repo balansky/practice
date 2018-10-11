@@ -7,6 +7,7 @@
 #include <boost/test/unit_test.hpp>
 #include "hackerrank.h"
 
+
 using namespace std;
 //BOOST_AUTO_TEST_CASE(MyTestCase){
 //    Student st("andy");
@@ -111,7 +112,48 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
 
         int res = findShortest(n, fromVec, toVec, ids, t);
         int ll;
+}
 
+    BOOST_AUTO_TEST_CASE(colleage_equal_test){
+
+        int arr[] = {2, 5, 5, 5, 5, 5};
+        vector <int> arrVec(arr, arr+6);
+        int res = colleageEqual(arrVec);
+
+        BOOST_CHECK_EQUAL(res, 6);
+
+    }
+    BOOST_AUTO_TEST_CASE(cost_test){
+
+        int arr[] = {1, 2, 3};
+        vector <int> arrVec(arr, arr+3);
+        sherlockcost(arrVec);
+
+//        BOOST_CHECK_EQUAL(res, 6);
+
+    }
+
+    BOOST_AUTO_TEST_CASE(common_child_test){
+        string s1 = "HARRY";
+        string s2 = "SALLY";
+        int res = commonChild(s1, s2);
+
+
+        BOOST_CHECK_EQUAL(res, 2);
+
+    }
+
+    BOOST_AUTO_TEST_CASE(reverse_shuffle_merge_test){
+        string s1 = "eggegg";
+        string r = reverseShuffleMerge(s1);
+
+
+        BOOST_CHECK_EQUAL(r, "egg");
+
+    }
+
+    BOOST_AUTO_TEST_CASE(mst_test){
+        KruskalMST();
 
     }
 
