@@ -56,5 +56,12 @@ int commonChild(string s1, string s2);
 string reverseShuffleMerge(string s);
 
 
+int minTime(int n, vector<vector<int>> roads, vector<int> machines);
+
+
+int stepPerms(int n);
+
+int superDigit(string n, int k);
+
 void KruskalMST();
 #endif //PRACTICE_HACKERRANK_H

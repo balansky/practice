@@ -312,3 +312,122 @@ string reverseShuffleMerge(string s) {
     return res;
 
 }
+
+bool DFS(int src, int &n,  vector<vector<int>> &edges, vector<int> &machines, vector<vector<int>> &paths, vector<int> &visited){
+    bool res = false;
+    visited.push_back(src);
+    for(int i = 0; i < n; i++){
+        int w = edges[src][i];
+        bool is_visited = find(visited.begin(), visited.end(), i) != visited.end();
+        if(!is_visited && w >= 0 && find(machines.begin(), machines.end(), i) == machines.end()){
+            bool has_machine = DFS(i, n, edges, machines, paths, visited);
+            if(has_machine){
+                vector<int> p = {w, src, i};
+                paths.push_back(p);
+                res = true;
+                break;
+            }
+        }
+        else if(w >= 0 && !is_visited){
+            vector<int> p = {w, src, i};
+            paths.push_back(p);
+            res = true;
+            cout << src << "->" << i << " : " << w << endl;
+            // machines.erase(find(machines.begin(), machines.end(), i));
+            break;
+        }
+    }
+    return res;
+}
+
+bool cmp(vector<int> a, vector<int>b){
+    return a[0] < b[0];
+}
+
+
+int minTime(int n, vector<vector<int>> roads, vector<int> machines) {
+    vector<vector<int>> edges(n, vector<int>(n, -1));
+    int result = 0;
+    for(auto it = roads.begin(); it != roads.end(); it++){
+        int src = (*it)[0];
+        int dst = (*it)[1];
+        int weights = (*it)[2];
+        edges[src][dst] = weights;
+        edges[dst][src] = weights;
+    }
+    for(auto it = machines.begin(); it != machines.end(); it++){
+        vector<vector<int>>paths;
+        vector<int> visited;
+
+        bool has_machines = DFS((*it), n, edges, machines, paths, visited);
+
+        if(has_machines)
+        {
+            auto m = min_element(paths.begin(), paths.end(), cmp);
+            edges[(*m)[1]][(*m)[2]] = -1;
+            edges[(*m)[2]][(*m)[1]] = -1;
+            result += (*m)[0];
+        }
+
+        // machines.erase(it);
+    }
+    return result;
+
+}
+
+int perms(int n, map<int, int> &cache){
+    if(n == 0)
+        return 1;
+
+    if(cache.find(n) != cache.end())
+        return cache[n];
+
+    int result = 0;
+    if(n >= 1){
+        result += perms(n-1, cache);
+    }
+    if(n >= 2){
+        result += perms(n-2, cache);
+    }
+    if(n >= 3){
+        result += perms(n-3, cache);
+    }
+    cache[n] = result;
+    return result;
+}
+
+int stepPerms(int n) {
+
+    map<int, int> cache;
+    int result = perms(n, cache);
+    return result;
+
+}
+
+int supD(string n, map<string, int>& cache){
+    if (cache.find(n) != cache.end()){
+        return cache[n];
+    }
+    else{
+        int sup = 0;
+        for(auto it = n.begin(); it != n.end(); it++){
+            sup += ((int)(*it) - '0');
+        }
+        cache[n] = sup;
+        return sup;
+    }
+}
+
+int superDigit(string n, int k) {
+    map<string, int> cache;
+    int s = 0;
+    for(int i = 0; i < k; i++){
+        s += supD(n, cache);
+    }
+    while(s > 10){
+
+        s = supD(to_string(s), cache);
+    }
+    return s;
+
+}
