@@ -9,6 +9,8 @@ include_directories(${PROJECT_INCLUDE_DIR})
 
 file(GLOB_RECURSE SOURCE "src/*.cpp")
 
-add_subdirectory(boost_tests)
+enable_testing()
 
-add_executable(test main.cpp ${SOURCE} include/hackerrank.h src/minmum_span_tree.cpp)
+add_subdirectory(test)
+
+add_executable(practice src/main.cpp ${SOURCE})
