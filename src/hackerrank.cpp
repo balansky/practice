@@ -7,6 +7,8 @@
 #include "hackerrank.h"
 #include <iostream>
 #include <limits>
+#include <algorithm>
+#include <set>
 #include <algorithm>    // std::min_element, std::max_element
 #include <map>
 #include <set>
@@ -126,6 +128,70 @@ string kangaroo(int x1, int v1, int x2, int v2) {
 
 }
 
+Graph createGraph(int V, vector<int> &graph_from, vector<int> &graph_to){
+    Graph g(V);
+
+    for(int i =0; i < graph_from.size(); i++){
+        int src = graph_from[i] - 1;
+        int dst = graph_to[i] - 1;
+        g.addEdge(src, dst, 1);
+    }
+
+    return g;
+}
+
+int findShortest(int graph_nodes, vector<int> graph_from, vector<int> graph_to, vector<long> ids, int val) {
+
+    Graph g = createGraph(graph_nodes, graph_from, graph_to);
+    auto it = find(ids.begin(), ids.end(), val);
+    auto st = find(it+1, ids.end(), val);
+    if (it != ids.end() && st != ids.end()){
+        long pos = distance(ids.begin(), it);
+        long tpos = distance(ids.begin(), st);
+
+        set<pair<int, int>> setds;
+        vector<int> dist(graph_nodes, numeric_limits<int>::max());
+
+        dist[pos] = 0;
+        setds.insert(make_pair(0, pos));
+        while(!setds.empty()){
+
+            pair<int,int> tmp = *setds.begin();
+            setds.erase(setds.begin());
+
+            int u = tmp.second;
+
+            if(u == tpos)
+                break;
+
+            for(auto iter = g.edges[u].begin(); iter != g.edges[u].end(); iter++){
+
+                int d = (*iter).first;
+                int w = (*iter).second;
+                int ud = dist[u] + w;
+                if(dist[d] > ud) {
+
+                    if (dist[d] != numeric_limits<int>::max()) {
+                        setds.erase(setds.find(make_pair(dist[d], d)));
+                    }
+                    dist[d] = ud;
+                    setds.insert(make_pair(ud, d));
+                }
+
+            }
+
+        }
+        return dist[tpos];
+
+
+    }
+    else{
+        return -1;
+    }
+
+}
+
+
 int colleageEqual(vector<int> arr) {
     auto min_iter = std::min_element(arr.begin(), arr.end());
     auto max_iter = std::max_element(arr.begin(), arr.end());
@@ -244,5 +310,124 @@ string reverseShuffleMerge(string s) {
     // sort (vs.begin(), vs.end());
     string res (vs.begin(), vs.end());
     return res;
+
+}
+
+bool DFS(int src, int &n,  vector<vector<int>> &edges, vector<int> &machines, vector<vector<int>> &paths, vector<int> &visited){
+    bool res = false;
+    visited.push_back(src);
+    for(int i = 0; i < n; i++){
+        int w = edges[src][i];
+        bool is_visited = find(visited.begin(), visited.end(), i) != visited.end();
+        if(!is_visited && w >= 0 && find(machines.begin(), machines.end(), i) == machines.end()){
+            bool has_machine = DFS(i, n, edges, machines, paths, visited);
+            if(has_machine){
+                vector<int> p = {w, src, i};
+                paths.push_back(p);
+                res = true;
+                break;
+            }
+        }
+        else if(w >= 0 && !is_visited){
+            vector<int> p = {w, src, i};
+            paths.push_back(p);
+            res = true;
+            cout << src << "->" << i << " : " << w << endl;
+            // machines.erase(find(machines.begin(), machines.end(), i));
+            break;
+        }
+    }
+    return res;
+}
+
+bool cmp(vector<int> a, vector<int>b){
+    return a[0] < b[0];
+}
+
+
+int minTime(int n, vector<vector<int>> roads, vector<int> machines) {
+    vector<vector<int>> edges(n, vector<int>(n, -1));
+    int result = 0;
+    for(auto it = roads.begin(); it != roads.end(); it++){
+        int src = (*it)[0];
+        int dst = (*it)[1];
+        int weights = (*it)[2];
+        edges[src][dst] = weights;
+        edges[dst][src] = weights;
+    }
+    for(auto it = machines.begin(); it != machines.end(); it++){
+        vector<vector<int>>paths;
+        vector<int> visited;
+
+        bool has_machines = DFS((*it), n, edges, machines, paths, visited);
+
+        if(has_machines)
+        {
+            auto m = min_element(paths.begin(), paths.end(), cmp);
+            edges[(*m)[1]][(*m)[2]] = -1;
+            edges[(*m)[2]][(*m)[1]] = -1;
+            result += (*m)[0];
+        }
+
+        // machines.erase(it);
+    }
+    return result;
+
+}
+
+int perms(int n, map<int, int> &cache){
+    if(n == 0)
+        return 1;
+
+    if(cache.find(n) != cache.end())
+        return cache[n];
+
+    int result = 0;
+    if(n >= 1){
+        result += perms(n-1, cache);
+    }
+    if(n >= 2){
+        result += perms(n-2, cache);
+    }
+    if(n >= 3){
+        result += perms(n-3, cache);
+    }
+    cache[n] = result;
+    return result;
+}
+
+int stepPerms(int n) {
+
+    map<int, int> cache;
+    int result = perms(n, cache);
+    return result;
+
+}
+
+int supD(string n, map<string, int>& cache){
+    if (cache.find(n) != cache.end()){
+        return cache[n];
+    }
+    else{
+        int sup = 0;
+        for(auto it = n.begin(); it != n.end(); it++){
+            sup += ((int)(*it) - '0');
+        }
+        cache[n] = sup;
+        return sup;
+    }
+}
+
+int superDigit(string n, int k) {
+    map<string, int> cache;
+    int s = 0;
+    for(int i = 0; i < k; i++){
+        s += supD(n, cache);
+    }
+    while(s > 10){
+
+        s = supD(to_string(s), cache);
+    }
+    return s;
 
 }

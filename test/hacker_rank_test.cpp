@@ -100,6 +100,20 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
 
     }
 
+    BOOST_AUTO_TEST_CASE(shortest_path_test){
+        int n = 4;
+        int fromArr[] = {1, 1, 4};
+        int toArr[] = {2, 3, 2};
+        int idArr[] = {1, 2, 1, 1};
+        int t = 1;
+        vector <int> fromVec(fromArr, fromArr+3);
+        vector <int> toVec(toArr, toArr+3);
+        vector <long> ids(idArr, idArr + 4);
+
+        int res = findShortest(n, fromVec, toVec, ids, t);
+        int ll;
+}
+
     BOOST_AUTO_TEST_CASE(colleage_equal_test){
 
         int arr[] = {2, 5, 5, 5, 5, 5};
@@ -141,6 +155,32 @@ BOOST_AUTO_TEST_SUITE(hacker_rank_suite)
     BOOST_AUTO_TEST_CASE(mst_test){
         KruskalMST();
 
+    }
+
+    BOOST_AUTO_TEST_CASE(min_time_test){
+        int n = 5;
+        vector<vector<int>> roads;
+        vector<int> r1 = {0, 3, 3};
+        vector<int> r2 = {1, 4, 4};
+        vector<int> r3 = {1, 3, 4};
+        vector<int> r4 = {0, 2, 5};
+        roads.push_back(r1);
+        roads.push_back(r2);
+        roads.push_back(r3);
+        roads.push_back(r4);
+        vector<int> machines = {1, 3, 4};
+
+        minTime(n, roads, machines);
+
+    }
+
+    BOOST_AUTO_TEST_CASE(step_perm_test){
+        int n = 3;
+        stepPerms(n);
+    }
+
+    BOOST_AUTO_TEST_CASE(super_digit_test){
+        superDigit("861568688536788", 100000);
     }
 
 BOOST_AUTO_TEST_SUITE_END()
